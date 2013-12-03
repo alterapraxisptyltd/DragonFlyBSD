@@ -37,6 +37,7 @@ SUBDIR=	alias \
 	chkey \
 	chpass \
 	cksum \
+	${_clang} \
 	cmp \
 	col \
 	colcrt \
@@ -272,6 +273,11 @@ SUBDIR+=gcore \
 	ncplist \
 	ncplogin \
 	smbutil
+.endif
+
+# XXX
+.if ${MK_CLANG} != "no"
+_clang=	clang
 .endif
 
 .include <bsd.subdir.mk>

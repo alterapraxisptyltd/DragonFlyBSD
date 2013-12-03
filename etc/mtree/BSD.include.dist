@@ -115,6 +115,10 @@
     ..
     cpu
     ..
+    clang
+	3.4
+	..
+    ..
     crypto
     ..
     dev

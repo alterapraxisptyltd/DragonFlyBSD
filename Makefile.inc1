@@ -840,6 +840,13 @@ bstrap-${_tool}!
 _share=	share/syscons/scrnmaps
 .endif
 
+.if ${MK_TOOLCHAIN} != "no" && ${MK_CLANG} != "no"
+_clang_tblgen= \
+  usr.bin/clang/lib/libllvmsupport \
+  usr.bin/clang/lib/libllvmllvmsystem \
+  usr.bin/clang/bin/tblgen
+.endif
+
 _gcc_common_cross= gnu/usr.bin/gmp gnu/usr.bin/mpfr
 .if !defined(NO_GCC44)
 _gcc44_cross= gnu/usr.bin/cc44
@@ -850,13 +857,14 @@ _gcc47_tools= gnu/usr.bin/cc47/cc_prep gnu/usr.bin/cc47/cc_tools
 _custom_cross= libexec/customcc
 _binutils= gnu/usr.bin/${WORLD_BINUTILSVER}
 
-BTOOLSDIRS= ${_gcc44_tools} ${_gcc47_tools} ${_share}
+BTOOLSDIRS= ${_clang_tblgen} ${_gcc44_tools} ${_gcc47_tools} ${_share}
 
 build-tools: build-tools-targets
 	touch ${BTOOLSDEST}/.build_done
 
 build-tools-targets: ${BTOOLSDIRS:S/^/btools-/}
 
+.ORDER: ${_clang_tblgen:S/^/btools-/}
 .ORDER: ${_gcc44_tools:S/^/btools-/}
 .ORDER: ${_gcc47_tools:S/^/btools-/}
 
